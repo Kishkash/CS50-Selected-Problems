@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Stock Symbol</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Share Price</th>
+                <th scope="col">Total Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+                <tr>
+                    <th scope="row">{{ loop.index0 + 1 }}</th>
+                    <td>{{ stock['stock_id'] }}</td>
+                    <td>{{ stock['shares'] }}</td>
+                    <td>{{ prices[loop.index0] }}</td>
+                    <td>{{ total_values[loop.index0] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="border-0 fw-bold text-end" colspan="4">Cash</td>
+                <td class="border-0">{{ cash_usd }}</td>
+            </tr>
+            <tr>
+                <td class="border-0 fw-bold text-end" colspan="4">Total</td>
+                <td class="border-0">{{ grand_total }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <form method="post">
+        <div class="mb-3">
+            <label for="symbol">Buy more shares:</label>
+
+            <select class="form-control mx-auto w-auto" name="symbol" id="symbol">
+                {% for stock in stocks %}
+                    <option value={{ stock['stock_id'] }}>{{ stock['stock_id'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" placeholder="Shares" name="shares" type="number" min="1">
+        </div>
+        <button class="btn btn-primary" type="submit">Buy Shares</button>
+    </form>
+{% endblock %}
+
